@@ -1,0 +1,184 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Winter 2025 Class Schedule</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(120deg, #f6d365, #fda085);
+        color: #333;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      .login-box, .container {
+        max-width: 800px;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        text-align: center;
+      }
+      h1 {
+        padding: 20px;
+        margin: 0;
+        background: #ff9a9e;
+        color: white;
+        font-size: 1.8rem;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th, td {
+        padding: 15px;
+        text-align: center;
+        border-bottom: 1px solid #ddd;
+      }
+      th {
+        background: #ff758c;
+        color: white;
+        font-weight: bold;
+      }
+      tr:hover {
+        background: #f9f9f9;
+      }
+      td {
+        font-size: 1rem;
+      }
+      .time {
+        font-weight: bold;
+        color: #555;
+      }
+      .login-box input[type="password"] {
+        width: calc(100% - 20px);
+        padding: 10px;
+        margin: 15px 0;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 1rem;
+      }
+      .login-box button {
+        background: #ff758c;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1rem;
+      }
+      .login-box button:hover {
+        background: #e64573;
+      }
+    </style>
+    <script>
+      // 使用 SHA-256 哈希值来校验密码
+      const HASHED_PASSWORD = "f3e31c0ea3c46d124a1ed68f4b8b623a0ed46b37f163b2f57cf219362c7e10f8"; // "0419" 的 SHA-256 哈希值
+
+      async function hashPassword(password) {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(password);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+      }
+
+      async function checkPassword() {
+        const inputPassword = document.getElementById('password').value;
+        const hashedInput = await hashPassword(inputPassword);
+        if (hashedInput === HASHED_PASSWORD) {
+          document.getElementById('login-box').style.display = 'none';
+          document.getElementById('schedule-container').style.display = 'block';
+        } else {
+          alert('Incorrect password. Please try again!');
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <!-- 登录界面 -->
+    <div id="login-box" class="login-box">
+      <h2>Password Required</h2>
+      <p>Please enter the password to view the class schedule.</p>
+      <input type="password" id="password" placeholder="Enter password" />
+      <button onclick="checkPassword()">Submit</button>
+    </div>
+
+    <!-- 课程表 -->
+    <div id="schedule-container" class="container" style="display: none;">
+      <h1>Winter 2025 Class Schedule</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>Day</th>
+            <th>Time</th>
+            <th>Course</th>
+            <th>Room</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Tuesday</td>
+            <td class="time">8:00AM - 9:45AM</td>
+            <td>WEB 222</td>
+            <td>A3527</td>
+          </tr>
+          <tr>
+            <td>Tuesday</td>
+            <td class="time">9:50AM - 11:35AM</td>
+            <td>DBS 211</td>
+            <td>A4504</td>
+          </tr>
+          <tr>
+            <td>Tuesday</td>
+            <td class="time">1:30PM - 3:15PM</td>
+            <td>OOP244</td>
+            <td>A2518</td>
+          </tr>
+          <tr>
+            <td>Wednesday</td>
+            <td class="time">8:00AM - 10:40AM</td>
+            <td>SFT 221</td>
+            <td>A1509A</td>
+          </tr>
+          <tr>
+            <td>Wednesday</td>
+            <td class="time">4:15PM - 6:55PM</td>
+            <td>LGE 903</td>
+            <td>Online</td>
+          </tr>
+          <tr>
+            <td>Thursday</td>
+            <td class="time">8:00AM - 10:40AM</td>
+            <td>DBS 211</td>
+            <td>A1508</td>
+          </tr>
+          <tr>
+            <td>Thursday</td>
+            <td class="time">9:50AM - 11:35AM</td>
+            <td>WEB 222</td>
+            <td>A3527</td>
+          </tr>
+          <tr>
+            <td>Thursday</td>
+            <td class="time">1:30 - 3:15AM</td>
+            <td>PSY 100</td>
+            <td>Online</td>
+          </tr>
+          <tr>
+            <td>Friday</td>
+            <td class="time">11:40AM - 1:25PM</td>
+            <td>OOP 244</td>
+            <td>A4513</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>
